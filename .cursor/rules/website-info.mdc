@@ -1,0 +1,167 @@
+---
+description: about my worksopace detail info
+globs: 
+alwaysApply: false
+---
+1. Super Admin
+🔧 Permissions & Actions:
+
+🧍 Add/edit/remove actors: Manager, Financial Head, Chairman
+
+🔄 Set system rules:
+
+Min/max withdrawal amount
+
+Credit eligibility duration (e.g. 12 months of membership)
+
+Savings interest rate
+
+💻 System maintenance:
+
+Schedule backups (daily, weekly)
+
+System logs: who did what, when
+
+📈 Full dashboard:
+
+All users, transactions, goals, credit history
+
+🔔 Notifications:
+
+System alerts (errors, down-time)
+
+Security messages
+
+🧑‍💼 2. Manager
+🗂️ Day-to-Day Ops:
+
+🧾 Monitor transactions in real-time
+
+✅ Manually confirm actions:
+
+Daily deposits or large transfers
+
+👥 View full user profiles (teachers & servants)
+
+🛎️ Assist with support tickets or requests
+
+e.g. “My withdrawal is pending”
+
+📤 Mass notifications (e.g. deadlines, reminders)
+
+💰 3. Financial Head
+💸 Financial Duties:
+
+📊 Prepare and export:
+
+Monthly profit/loss reports
+
+Total savings & loan reports
+
+🔍 Audit trail:
+
+View every user’s transaction history
+
+Flag suspicious transactions
+
+✅ Approve:
+
+Credit issuance
+
+Big savings withdrawals
+
+🏦 Sync with bank records:
+
+Match in-system transaction logs with bank feeds (via API or file upload)
+
+🧑‍⚖️ 4. Chairman
+👑 High Authority Actions:
+
+🔐 Approve/reject new user registrations
+
+Only teachers/servants with verified Dilla University ID and email
+
+💳 Final decision on credit requests
+
+Can override manager/finance decision
+
+📣 Send updates:
+
+Policy changes
+
+Yearly meetings
+
+📚 Rule definition:
+
+E.g., “You can’t withdraw more than 30% of your savings per month”
+
+👨‍🏫 5. Teachers
+💼 Account Management:
+
+🧾 View savings, interest earned, loan history
+
+💰 Deposit methods:
+
+Bank transfer, mobile money, or cash office
+
+📥 Withdraw:
+
+After hitting eligibility (e.g. balance > 1000 ETB)
+
+🧮 Request loans:
+
+After 12 months
+
+Loan based on savings (e.g. 3x savings)
+
+Credit score auto-generated
+
+🎯 Set savings goals:
+
+e.g. “Save 10,000 ETB by December”
+
+👥 Team savings:
+
+Create teams with shared goals
+
+Group bonuses if goals met
+
+🧹 6. Servants
+🛠️ Similar to Teachers But with Limits:
+
+💰 Smaller credit limit (e.g., up to 15,000 ETB)
+
+👮 Manual verification may be needed by manager
+
+📥 Can set goals, withdraw, and transfer funds
+
+⚠️ May require joint team savings for loan approval
+
+🏦 7. Banks
+🔗 Integration Actor:
+
+🏦 Connect via API or upload spreadsheet
+
+🧾 Process transactions:
+
+Teachers deposit to DUTSCA bank account → system marks as "deposited"
+
+🔒 Approve outgoing transfers (for loans or withdrawals)
+
+📤 Notify system of successful transactions
+
+🧭 Bonus Features (cross-role):
+🔁 Auto-notify:
+
+When credit matures
+
+When goal is 80% complete
+
+🧠 AI Credit Scoring:
+
+Use pattern detection to recommend or deny credit
+
+🔐 2FA Login:
+
+For Financial Head, Chairman, and Super Admin
+
