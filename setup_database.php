@@ -33,14 +33,23 @@ try {
     $pdo->exec($sql);
     echo "Users table created successfully<br>";
     
-    // Create client_profiles table
+    // Create client_profiles table with additional fields
     $sql = "CREATE TABLE IF NOT EXISTS client_profiles (
         id INT PRIMARY KEY AUTO_INCREMENT,
         user_id INT NOT NULL,
         age INT,
         sex ENUM('male', 'female', 'other'),
+        marital_status ENUM('single', 'married', 'divorced', 'widowed'),
+        occupation VARCHAR(100),
+        education_level VARCHAR(100),
+        income_level ENUM('low', 'medium', 'high'),
         family_members INT,
         health_status TEXT,
+        disability_status BOOLEAN DEFAULT FALSE,
+        disability_type VARCHAR(100),
+        emergency_contact_name VARCHAR(100),
+        emergency_contact_phone VARCHAR(20),
+        emergency_contact_relationship VARCHAR(50),
         region VARCHAR(100),
         zone VARCHAR(100),
         wereda VARCHAR(100),
@@ -48,8 +57,14 @@ try {
         house_number VARCHAR(50),
         case_type VARCHAR(100),
         case_category VARCHAR(100),
+        case_description TEXT,
+        case_priority ENUM('low', 'medium', 'high', 'urgent'),
+        case_status ENUM('pending', 'active', 'resolved', 'closed') DEFAULT 'pending',
+        preferred_language VARCHAR(50),
+        preferred_communication_method ENUM('phone', 'email', 'in_person'),
         office_id INT,
         id_proof_path VARCHAR(255),
+        additional_documents_path VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
@@ -57,18 +72,31 @@ try {
     $pdo->exec($sql);
     echo "Client profiles table created successfully<br>";
     
-    // Create cases table
+    // Create cases table with additional fields
     $sql = "CREATE TABLE IF NOT EXISTS cases (
         id INT AUTO_INCREMENT PRIMARY KEY,
         client_id INT NOT NULL,
         title VARCHAR(255) NOT NULL,
         description TEXT,
-        status ENUM('pending', 'active', 'resolved', 'closed') DEFAULT 'pending',
         case_type VARCHAR(100),
         case_category VARCHAR(100),
+        priority ENUM('low', 'medium', 'high', 'urgent'),
+        status ENUM('pending', 'active', 'resolved', 'closed') DEFAULT 'pending',
+        assigned_lawyer_id INT,
+        assigned_paralegal_id INT,
+        court_name VARCHAR(255),
+        court_case_number VARCHAR(100),
+        filing_date DATE,
+        next_hearing_date DATE,
+        estimated_completion_date DATE,
+        case_value DECIMAL(15,2),
+        fee_structure VARCHAR(100),
+        payment_status ENUM('pending', 'partial', 'completed'),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (client_id) REFERENCES users(id) ON DELETE CASCADE
+        FOREIGN KEY (client_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (assigned_lawyer_id) REFERENCES users(id) ON DELETE SET NULL,
+        FOREIGN KEY (assigned_paralegal_id) REFERENCES users(id) ON DELETE SET NULL
     )";
     $pdo->exec($sql);
     echo "Cases table created successfully<br>";
@@ -80,8 +108,11 @@ try {
         title VARCHAR(255) NOT NULL,
         file_path VARCHAR(255) NOT NULL,
         document_type VARCHAR(100),
+        description TEXT,
+        uploaded_by INT NOT NULL,
         uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE
+        FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE,
+        FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE CASCADE
     )";
     $pdo->exec($sql);
     echo "Case documents table created successfully<br>";
@@ -95,8 +126,12 @@ try {
         activity_date DATE NOT NULL,
         activity_type VARCHAR(100),
         status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+        assigned_to INT,
+        created_by INT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE
+        FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE,
+        FOREIGN KEY (assigned_to) REFERENCES users(id) ON DELETE SET NULL,
+        FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
     )";
     $pdo->exec($sql);
     echo "Case activities table created successfully<br>";
@@ -106,6 +141,7 @@ try {
         id INT AUTO_INCREMENT PRIMARY KEY,
         case_id INT NOT NULL,
         note TEXT NOT NULL,
+        note_type ENUM('general', 'legal', 'client', 'internal') DEFAULT 'general',
         created_by INT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (case_id) REFERENCES cases(id) ON DELETE CASCADE,
